@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { AuthService } from 'src/app/_services/authService/auth-service.service'; 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ApiErrorDto } from 'src/app/_models/user/errorApi';
 
 @Component({
   selector: 'app-login-form',
@@ -28,21 +29,16 @@ export class LoginFormComponent implements OnInit {
   
 
   onSubmit() {
+    this.errorMessage = "";
     this.isLoading = true;
 
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 10000)
-    // this.authService
-    //   .login(this.form['email'].value, this.form['password'].value)
-    //   .then(() => {
-    //     this.isLoading = false;
- 
-    //   })
-    //   .catch(() => {
-    //     this.isLoading = false;
-    //     this.errorMessage = 'Adresse email ou mot de passe incorrect';
-        
-    //   });
+    setTimeout( ( ) => {
+    this.authService.login(this.form['email'].value, this.form['password'].value).subscribe({
+        error : (error : ApiErrorDto) => {this.errorMessage = error.message, this.isLoading = false },
+        complete: () =>   this.isLoading = false
+      })
+       
+  },1000)
+    
   }
 }

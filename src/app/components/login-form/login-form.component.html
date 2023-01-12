@@ -2,7 +2,12 @@
 
 <form  [formGroup]="loginForm" (submit)="onSubmit()">
 
+  
   <div class="form-group">
+
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{errorMessage}}
+    </div>
     <div>
       <label for="email">Adresse email :</label>
       <input type="email" formControlName="email" id="email" placeholder="Email..." class="form__field" required />
