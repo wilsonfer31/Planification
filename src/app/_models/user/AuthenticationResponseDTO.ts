@@ -1,7 +1,6 @@
 
-export interface LoginResponse{
+export interface AuthenticationResponseDTO{
 
-    id: number;
     email: string;
     token? : string;
     role : string;

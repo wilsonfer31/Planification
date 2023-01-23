@@ -1,4 +1,14 @@
 
+.bodybg {
+  
+  background-image: url('../../../assets/Image1.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center right ;
+  background-attachment:fixed;
+}
+
+
 form {
   width: 20%;
   margin: 0 auto;
@@ -136,5 +146,6 @@ button:hover {
   border-image: linear-gradient(to left, #11998e, #000000);
   border-image-slice: 1;
 }
+
 
 

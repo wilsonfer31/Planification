@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { AuthService } from 'src/app/_services/authService/auth-service.service'; 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ApiErrorDto } from 'src/app/_models/user/errorApi';
+import { ApiErrorDto } from 'src/app/_models/errorApi';
+import { DOCUMENT } from '@angular/common';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.css']
+  styleUrls: ['./login-form.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class LoginFormComponent implements OnInit {
 
@@ -20,9 +23,19 @@ export class LoginFormComponent implements OnInit {
   errorMessage: string;
   isLoading = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService,
+    @Inject(DOCUMENT) private _document : Document,
+    private router: Router,
+    private route : ActivatedRoute
+    ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this._document.body.classList.add('bodybg');
+
+  }
+  ngOnDestroy() {
+    this._document.body.classList.remove('bodybg');
+  }
 
   get form() { return this.loginForm.controls; };
 
@@ -34,6 +47,9 @@ export class LoginFormComponent implements OnInit {
 
     setTimeout( ( ) => {
     this.authService.login(this.form['email'].value, this.form['password'].value).subscribe({
+        next : () => {
+          let returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/calendar';
+          this.router.navigateByUrl(returnUrl)},
         error : (error : ApiErrorDto) => {this.errorMessage = error.message, this.isLoading = false },
         complete: () =>   this.isLoading = false
       })

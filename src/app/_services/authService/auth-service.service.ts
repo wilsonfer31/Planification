@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, catchError, map, Observable } from "rxjs";
-import { LoginResponse } from 'src/app/_models/user/loginResponse';
+import { AuthenticationResponseDTO } from 'src/app/_models/user/AuthenticationResponseDTO';
 import { environment } from 'src/app/_environement/environment';
-import { ApiErrorDto } from 'src/app/_models/user/errorApi';
+import { ApiErrorDto } from 'src/app/_models/errorApi';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +12,13 @@ export class AuthService {
 
   private currentUserSubject: BehaviorSubject<any>;
 
-  public currentUser: Observable<LoginResponse>;
+  public currentUser: Observable<AuthenticationResponseDTO>;
 
   http = environment.base_api_back + '/login';
 
   constructor(private httpClient: HttpClient) { 
     let lsVal = localStorage.getItem('currentUser');
-    this.currentUserSubject = new BehaviorSubject<LoginResponse>(JSON.parse(lsVal!));
+    this.currentUserSubject = new BehaviorSubject<AuthenticationResponseDTO>(JSON.parse(lsVal!));
     this.currentUser = this.currentUserSubject.asObservable()
   }
 
