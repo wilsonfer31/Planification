@@ -26,11 +26,14 @@ export class LoginFormComponent implements OnInit {
   constructor(private authService: AuthService,
     @Inject(DOCUMENT) private _document : Document,
     private router: Router,
-    private route : ActivatedRoute
+    private route : ActivatedRoute,
+
     ) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {  
+    if(this.authService.currentUser != null) {this.router.navigate(["/calendar"])};
     this._document.body.classList.add('bodybg');
+    
 
   }
   ngOnDestroy() {
@@ -49,7 +52,8 @@ export class LoginFormComponent implements OnInit {
     this.authService.login(this.form['email'].value, this.form['password'].value).subscribe({
         next : () => {
           let returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/calendar';
-          this.router.navigateByUrl(returnUrl)},
+          this.router.navigate([returnUrl]).then(() => window.location.reload());
+        },
         error : (error : ApiErrorDto) => {this.errorMessage = error.message, this.isLoading = false },
         complete: () =>   this.isLoading = false
       })

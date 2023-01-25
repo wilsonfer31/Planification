@@ -1,3 +1,1 @@
-
-
-<full-calendar [options]="calendarOptions" style="height: 600px"></full-calendar>
+<full-calendar [options]="calendarOptions" [events]="initial_events$ | async"></full-calendar>

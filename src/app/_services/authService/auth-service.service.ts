@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, catchError, map, Observable } from "rxjs";
 import { AuthenticationResponseDTO } from 'src/app/_models/user/AuthenticationResponseDTO';
 import { environment } from 'src/app/_environement/environment';
-import { ApiErrorDto } from 'src/app/_models/errorApi';
+import { Router } from '@angular/router';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,16 +15,17 @@ export class AuthService {
 
   public currentUser: Observable<AuthenticationResponseDTO>;
 
-  http = environment.base_api_back + '/login';
+  url = environment.base_api_back + '/login';
 
-  constructor(private httpClient: HttpClient) { 
+  constructor(private httpClient: HttpClient, private router: Router) { 
     let lsVal = localStorage.getItem('currentUser');
     this.currentUserSubject = new BehaviorSubject<AuthenticationResponseDTO>(JSON.parse(lsVal!));
     this.currentUser = this.currentUserSubject.asObservable()
   }
 
+
   login(email: string, password: string) {
-    return this.httpClient.post<any>(this.http, {email, password })
+    return this.httpClient.post<any>(this.url, {email, password })
     .pipe(map(result => {
       localStorage.setItem('currentUser', JSON.stringify(result));
       this.currentUserSubject.next(result);
@@ -34,8 +36,13 @@ export class AuthService {
       }),)
   }
 
+  public get currentUserValue(): AuthenticationResponseDTO {
+    return this.currentUserSubject.value;
+  }
+
   logout() {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(undefined);
+    this.router.navigate(['login']);
   }
 }

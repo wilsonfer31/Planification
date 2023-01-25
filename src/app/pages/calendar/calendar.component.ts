@@ -1,10 +1,11 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
-import { CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
-import { INITIAL_EVENTS, createEventId  } from './event-utils';
+import { EventServiceService } from 'src/app/_services/eventService/event-service';
+
 
 
 @Component({
@@ -12,10 +13,22 @@ import { INITIAL_EVENTS, createEventId  } from './event-utils';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
-export class CalendarComponent {
-  
+export class CalendarComponent implements OnInit{
+
+  initial_events$ = this.eventService.getAll();
   calendarVisible = true;
+  
+  constructor(private changeDetector: ChangeDetectorRef, private eventService : EventServiceService) {}
+  
+  async ngOnInit() {
+    this.initial_events$.subscribe(events => {
+      this.calendarOptions.initialEvents = events;
+      this.changeDetector.detectChanges();
+    });
+}
+
   calendarOptions: CalendarOptions = {
+
     plugins: [
       interactionPlugin,
       dayGridPlugin,
@@ -28,7 +41,6 @@ export class CalendarComponent {
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
     },
     initialView: 'dayGridMonth',
-    initialEvents: INITIAL_EVENTS, 
     weekends: true,
     editable: true,
     selectable: true,
@@ -38,10 +50,12 @@ export class CalendarComponent {
     eventClick: this.handleEventClick.bind(this),
     eventsSet: this.handleEvents.bind(this)
   };
+
+
+
   currentEvents: EventApi[] = [];
 
-  constructor(private changeDetector: ChangeDetectorRef) {
-  }
+ 
 
   handleCalendarToggle() {
     this.calendarVisible = !this.calendarVisible;
@@ -57,16 +71,28 @@ export class CalendarComponent {
     const calendarApi = selectInfo.view.calendar;
 
     calendarApi.unselect(); 
+    
+    console.log(selectInfo.startStr);
 
     if (title) {
       calendarApi.addEvent({
-        id: createEventId(),
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
         allDay: selectInfo.allDay
       });
+
+
+
+      this.eventService.saveEvent({ 
+        title,
+        start: selectInfo.startStr,
+        end: selectInfo.endStr ,
+        allDay: selectInfo.allDay}).subscribe();
     }
+
+
+  
   }
 
   handleEventClick(clickInfo: EventClickArg) {
@@ -81,4 +107,9 @@ export class CalendarComponent {
     this.currentEvents = events;
     this.changeDetector.detectChanges();
   }
+
+ 
+    
 }
+
+
