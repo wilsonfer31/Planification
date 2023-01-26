@@ -96,7 +96,8 @@ export class CalendarComponent implements OnInit{
   }
 
   handleEventClick(clickInfo: EventClickArg) {
-    console.log(clickInfo.event);
+
+    console.log(clickInfo.event.id);
     if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
    
       clickInfo.event.remove();
