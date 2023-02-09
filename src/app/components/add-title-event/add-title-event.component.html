@@ -1,0 +1,17 @@
+<ng-container>
+    <div class="text-center ">
+            <h1 mat-dialog-title>Enter a new title for your event :</h1>
+            <div mat-dialog-content  class="p-4 m-3 bg-dark ">
+                <p>heheassasaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
+                <p>#TODO</p>
+            </div>
+            <input type="text" [(ngModel)]="title" class="w-75">
+
+    </div>
+    <hr>
+    <div mat-dialog-actions>
+        <button mat-button  class="btn btn-danger"  (click)="cancel()">Cancel</button>&nbsp;
+        <button mat-button class="btn btn-success " (click)="submit()" cdkFocusInitial>Submit</button>
+    </div>
+
+</ng-container>

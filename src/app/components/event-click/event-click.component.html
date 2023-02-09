@@ -1,15 +1,16 @@
-<ng-container>
+<ng-container *ngIf="eventValue">
 
     <h1 mat-dialog-title class="text-center">{{eventValue.title | uppercase}}</h1>
 
     <div mat-dialog-content class="d-flex flex-row">
         <div class="p-3">
-            <p>Title : <input [(ngModel)]="eventValue.title" disabled="true" /> </p>
+            <p>Title : <input [(ngModel)]="eventValue.title" [disabled]="!titleModify" /> </p>
             <p>Start Date : {{ eventValue.start | date:'medium'}} </p>
             <p>End Date: {{ eventValue.end |date:'medium'}}</p>
             <div class="text-center">
-                <button type="button" class="btn btn-danger">delete</button>&nbsp;
-                <button type="button" class="btn btn-info">Modify</button>
+                <button type="button" class="btn btn-danger" (click)="deleteEvent(eventValue.id)">delete</button>&nbsp;
+                <button type="button"  class="{{!titleModify? 'btn btn-info' : 'btn btn-success'}}" (click)="modifyEventName()">Modify</button> &nbsp;
+                <button type="button" class="btn btn-info" (click)="addTask()">Add Task</button>
             </div>
 
         </div>
@@ -19,11 +20,28 @@
             <p>#TODO</p>
         </div>
     </div>
+    <div class="text-left">
+        <h1 class="text-center" *ngIf="eventValue.tasks.length !=0">Your Tasks : <button (click)="taskWatchableFonction()">Whatch?</button></h1>
+        <hr>
+        <div *ngIf="taskWatchable" class="p-2">
+            <div *ngFor="let tasks of eventValue.tasks">
+                <input [(ngModel)]="tasks.task" [value]="tasks.task" class="p-2 w-75 ali" [disabled]="!tasks.show" > &nbsp; 
+                <button type="button" class="btn btn-danger" (click)="removeTask(tasks)">delete</button> 
+
+                <span   *ngIf="!tasks.show">
+                &nbsp;<button type="button" class="btn btn-info" (click)="modifyTask(tasks)">Modify</button>
+                 </span>
+                 <span   *ngIf="tasks.show">
+                    &nbsp;<button type="button" class="btn btn-success" (click)="modifyTask(tasks)">Save</button>
+                     </span>
+            </div>
+        </div>
+    </div>
 
 
     <div mat-dialog-actions>
-        <button mat-button class="btn my-btn" (click)="cancel()">Cancel</button>
-        <button mat-button class="btn my-btn" (click)="submit()" cdkFocusInitial>Submit</button>
+        <button mat-button  class="btn btn-danger"  (click)="cancel()">Cancel</button>&nbsp;
+        <button mat-button class="btn btn-success " (click)="submit()" cdkFocusInitial>Submit</button>
     </div>
 
 </ng-container>

@@ -2,6 +2,9 @@ import { Component , OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { Inject } from '@angular/core';
+import { EventService } from 'src/app/_services/eventService/event-service';
+import { eventAndTaskResponseDto } from 'src/app/_models/event/eventAndTaskResponseDto';
+import { TasksDto } from 'src/app/_models/task/taskDto';
 
 
 
@@ -11,16 +14,25 @@ import { Inject } from '@angular/core';
   styleUrls: ['./event-click.component.css']
 })
 export class EventClickComponent implements OnInit{
-  eventValue: any;
+  eventValue: eventAndTaskResponseDto;
+  taskWatchable : boolean = false;
+  titleModify: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<EventClickComponent>,
+    public eventService: EventService,
     @Inject(MAT_DIALOG_DATA) public data: any
     ) { }
   ngOnInit(): void {
   
-    this.eventValue = this.data.dataKey.event;
-    console.log(this.eventValue);  
+    this.eventService.getEventById(this.data.dataKey).subscribe(
+      {
+        next: (event : any) => {this.eventValue = event},
+      
+      },
+ 
+    )
+    
   }
 
   cancel() {
@@ -29,7 +41,36 @@ export class EventClickComponent implements OnInit{
 
  
   submit(){
-    this.dialogRef.close(this.eventValue);
+    this.eventService.saveEvent(this.eventValue).subscribe();
+    this.dialogRef.close(this.eventValue.title);
 
+  }
+  taskWatchableFonction(){
+    this.taskWatchable = !this.taskWatchable;
+  }
+
+  addTask(){
+    this.taskWatchable = true;
+  
+      this.eventValue.tasks.push(new TasksDto);
+  }
+
+  removeTask(tasks : TasksDto){
+   this.eventValue.tasks = this.eventValue.tasks.filter(arrayItem => arrayItem !== tasks);
+   
+  }
+
+  modifyTask(tasks : TasksDto){
+
+  tasks.show = !tasks.show;
+  }
+
+  modifyEventName(){
+    this.titleModify = ! this.titleModify;
+  }
+
+  deleteEvent(id : number){
+    this.eventService.delete(id).subscribe();
+    window.location.reload();
   }
 }
