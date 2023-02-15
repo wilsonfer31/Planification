@@ -1,0 +1,33 @@
+
+  .tno {
+      background-color: #e68989;
+      height: 120px;
+      width: 120px;
+      border-radius: 50%;
+      -moz-border-radius: 50%;
+      -o-border-radius: 50%;
+      -ms-border-radius: 50%;
+      position: relative;
+      display: inline-block;
+      top: 50px;
+      left: 15px;
+      border: 2px solid #080808;
+  }
+
+  
+
+  .tyes {
+      background-color:  #74a074;
+      height: 120px;
+      width: 120px;
+      border-radius: 50%;
+      -moz-border-radius: 50%;
+      -o-border-radius: 50%;
+      -ms-border-radius: 50%;
+      position: relative;
+      display: inline-block;
+      top: 48px;
+      border: 2px solid #101111;
+  }
+
+

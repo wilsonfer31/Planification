@@ -1,0 +1,29 @@
+.tphoto {
+    width: 550px;
+    height: 450px;
+    overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+    top: 20%;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -o-border-radius: 10px;
+    -ms-border-radius: 10px;
+    border: 1px solid #c0c0c0;
+    padding-bottom: 60px;
+    background-color: #fff;
+    box-shadow: 2px 2px 2px #c0c0c0;
+}
+
+.tname {
+    margin-top: 30%;
+    padding: 30px;
+    font-size: 20px;
+    font-family: 'Helvetica', sans-serif;
+    text-align: center;
+}
+
+.date{
+    text-align: right;
+}
+

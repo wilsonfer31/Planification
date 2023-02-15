@@ -1,0 +1,17 @@
+
+
+<div
+ *ngIf="tasks"
+  class="tphoto"
+  [@cardAnimator]="animationState"
+  (@cardAnimator.done)="resetAnimationState($event, tasks[index] )"
+  (swipeleft)="startAnimation('swipeleft')"
+  (swiperight)="startAnimation('swiperight')"
+>
+
+<div class="date">{{tasks[index].eventName | uppercase }} - {{tasks[index].created }} &nbsp;</div> 
+  <div class="tname" >
+    <span>{{ tasks[index].task }}</span>
+  </div>
+   
+</div>
