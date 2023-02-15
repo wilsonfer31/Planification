@@ -1,10 +1,14 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, Calendar } from '@fullcalendar/core';
+import { CalendarOptions, DateSelectArg, EventClickArg, EventApi, Calendar, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
-import { EventServiceService } from 'src/app/_services/eventService/event-service';
+import { EventService } from 'src/app/_services/eventService/event-service';
+import { MatDialog } from '@angular/material/dialog';
+import { EventClickComponent } from 'src/app/components/event-click/event-click.component';
+import { Router } from '@angular/router';
+import { AddTitleEventComponent } from 'src/app/components/add-title-event/add-title-event.component';
 
 
 
@@ -13,19 +17,19 @@ import { EventServiceService } from 'src/app/_services/eventService/event-servic
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
-export class CalendarComponent implements OnInit{
+export class CalendarComponent implements OnInit {
 
   initial_events$ = this.eventService.getAll();
   calendarVisible = true;
-  
-  constructor(private changeDetector: ChangeDetectorRef, private eventService : EventServiceService) {}
-  
+
+  constructor(private changeDetector: ChangeDetectorRef, private eventService: EventService, private dialog: MatDialog, private router: Router) { }
+
   async ngOnInit() {
     this.initial_events$.subscribe(events => {
       this.calendarOptions.initialEvents = events;
       this.changeDetector.detectChanges();
     });
-}
+  }
 
   calendarOptions: CalendarOptions = {
 
@@ -55,7 +59,7 @@ export class CalendarComponent implements OnInit{
 
   currentEvents: EventApi[] = [];
 
- 
+
 
   handleCalendarToggle() {
     this.calendarVisible = !this.calendarVisible;
@@ -66,42 +70,57 @@ export class CalendarComponent implements OnInit{
     calendarOptions.weekends = !calendarOptions.weekends;
   }
 
-  handleDateSelect(selectInfo: DateSelectArg) {
-    const title = prompt('Please enter a new title for your event');
+  async handleDateSelect(selectInfo: DateSelectArg) {
+    let title = "";
     const calendarApi = selectInfo.view.calendar;
 
-    calendarApi.unselect(); 
-    
-    console.log(selectInfo.startStr);
+    const dialogRef = this.dialog.open(AddTitleEventComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      title = result,
 
-    if (title) {
-      calendarApi.addEvent({
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay
-      });
+      calendarApi.unselect();
 
 
+      if (title) {
+        this.eventService.saveEvent({
+          title,
+          start: selectInfo.startStr,
+          end: selectInfo.endStr,
+          allDay: selectInfo.allDay
+        }).subscribe((value: EventInput) => {
+          calendarApi.addEvent({
+            id: value.id,
+            title,
+            start: selectInfo.startStr,
+            end: selectInfo.endStr,
+            allDay: selectInfo.allDay
+          });
+        });
 
-      this.eventService.saveEvent({ 
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr ,
-        allDay: selectInfo.allDay}).subscribe();
-    }
 
 
-  
+
+      }
+
+    })
   }
 
   handleEventClick(clickInfo: EventClickArg) {
 
-    console.log(clickInfo.event.id);
-    if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-   
-      clickInfo.event.remove();
-    }
+
+    const dialogRef = this.dialog.open(EventClickComponent, {
+      data: {
+        dataKey: clickInfo.event.id
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {result != false? clickInfo.event.setProp('title', result) : '' })
+
+
+
+    clickInfo.jsEvent.preventDefault();
+
+
   }
 
   handleEvents(events: EventApi[]) {
@@ -109,8 +128,8 @@ export class CalendarComponent implements OnInit{
     this.changeDetector.detectChanges();
   }
 
- 
-    
+
+
 }
 
 

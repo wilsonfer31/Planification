@@ -12,6 +12,11 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { JwtInterceptor } from './_helpers/jwt.intercepteur';
+import { MatDialogModule } from '@angular/material/dialog';
+import { EventClickComponent } from './components/event-click/event-click.component';
+import { AddTitleEventComponent } from './components/add-title-event/add-title-event.component';
+import { LastTaskComponent } from './pages/last-task/last-task.component';
+import { TaskCardComponent } from './components/task-card/task-card.component';
 
 
 
@@ -21,6 +26,10 @@ import { JwtInterceptor } from './_helpers/jwt.intercepteur';
     LoginFormComponent,
     DashboardComponent,
     CalendarComponent,
+    EventClickComponent,
+    AddTitleEventComponent,
+    LastTaskComponent,
+    TaskCardComponent,
     
 
   ],
@@ -33,7 +42,10 @@ import { JwtInterceptor } from './_helpers/jwt.intercepteur';
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
-    FullCalendarModule
+    FullCalendarModule,
+    MatDialogModule,
+   
+
     
   ],
   providers: [{provide : HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi:true} , ],

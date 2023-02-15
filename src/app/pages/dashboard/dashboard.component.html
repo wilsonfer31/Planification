@@ -4,7 +4,7 @@
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
             <li class="sidebar-brand">
-                <a >
+                <a routerLink="/calendar">
                    WF Planning
                 </a>
             </li>
@@ -12,7 +12,7 @@
                 <a routerLink="/calendar" >Calendar</a>
             </li>
             <li>
-                <a href="#">Next?</a>
+                <a routerLink="/lastTask">Waiting Tasks</a>
             </li>
             <li>
                 <a href="#">What have i done?</a>
@@ -21,7 +21,7 @@
                 <a href="#"></a>
             </li>
             <li>
-                <a href="#">About</a>
+                <a href="#">Stats</a>
             </li>
             <li>
                 <a  (click)="logOut()">Exit</a>
