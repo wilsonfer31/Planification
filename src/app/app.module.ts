@@ -17,6 +17,10 @@ import { EventClickComponent } from './components/event-click/event-click.compon
 import { AddTitleEventComponent } from './components/add-title-event/add-title-event.component';
 import { LastTaskComponent } from './pages/last-task/last-task.component';
 import { TaskCardComponent } from './components/task-card/task-card.component';
+import { TaskValidatedComponent } from './pages/task-validated/task-validated.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ChatboxComponent } from './pages/chatbox/chatbox.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 
 
@@ -30,6 +34,8 @@ import { TaskCardComponent } from './components/task-card/task-card.component';
     AddTitleEventComponent,
     LastTaskComponent,
     TaskCardComponent,
+    TaskValidatedComponent,
+    ChatboxComponent,
     
 
   ],
@@ -44,6 +50,8 @@ import { TaskCardComponent } from './components/task-card/task-card.component';
     MatInputModule,
     FullCalendarModule,
     MatDialogModule,
+    FontAwesomeModule,
+    PickerModule
    
 
     

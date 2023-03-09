@@ -6,6 +6,7 @@ export class TasksDto{
     show : boolean = false;
     created : string;
     eventName: string;
+    isValidated : boolean;
     constructor(){
         this.task = "New Task";
         this.show = true;

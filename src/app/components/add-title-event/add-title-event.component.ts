@@ -14,7 +14,7 @@ export class AddTitleEventComponent implements OnInit{
 
   }
   ngOnInit(): void {
-    this.dialogRef.updateSize('30%', '33%');
+    this.dialogRef.updateSize('35%', 'auto');
     
   }
 
@@ -27,4 +27,6 @@ export class AddTitleEventComponent implements OnInit{
     this.dialogRef.close(this.title);
 
   }
+
+
 }

@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": ["stompjs","sockjs-client"],
             "outputPath": "dist/projet-plannification",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -27,7 +28,8 @@
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/@ctrl/ngx-emoji-mart/picker.css"
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
@@ -93,9 +95,11 @@
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/@ctrl/ngx-emoji-mart/picker.css"
             ],
             "scripts": [
+              
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ]
           }

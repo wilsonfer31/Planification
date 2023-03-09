@@ -1,0 +1,29 @@
+
+<div *ngIf="tasks; "> 
+<ng-container *ngIf="tasks.length != 0 else noTasks">
+  <table class="table table-striped">
+    <thead >
+      <tr>
+        <th scope="col">task</th>
+        <th scope="col">Created</th>
+        <th scope="col">Event-Name</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let task of tasks"> 
+      <tr>
+        <td>{{task.task}}</td>
+        <td>{{task.created}}</td>
+        <td>{{task.eventName}}</td>
+        <td class="deleteIncon"><fa-icon [icon]="faTrash" ></fa-icon></td>
+      </tr>
+    </tbody>
+  </table>
+
+  
+</ng-container>
+
+</div>
+<ng-template #noTasks>
+  <h1 class="text-center">You dont validate any Task!... YET </h1>
+</ng-template>

@@ -1,0 +1,6 @@
+.deleteIncon{
+    color: rgb(70, 8, 8) !important;
+}
+.deleteIncon :hover{
+    color: rgb(158, 25, 25);
+}

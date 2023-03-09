@@ -33,4 +33,9 @@ export class TaskService {
 validateTask(id : number) : Observable<TasksDto>{
   return this.http.post<TasksDto>(`${this.url}/validate/${id}`, this.httpHeaders).pipe(catchError(error => {throw error}));
 }
+
+getAllValidatedTask(): Observable<TasksDto []> {
+  return this.http.get<TasksDto []>(`${this.url}/validated`).pipe(catchError(error => {throw error;}));
+}
+
 }

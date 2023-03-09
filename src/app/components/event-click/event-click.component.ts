@@ -5,7 +5,7 @@ import { Inject } from '@angular/core';
 import { EventService } from 'src/app/_services/eventService/event-service';
 import { eventAndTaskResponseDto } from 'src/app/_models/event/eventAndTaskResponseDto';
 import { TasksDto } from 'src/app/_models/task/taskDto';
-
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -17,6 +17,7 @@ export class EventClickComponent implements OnInit{
   eventValue: eventAndTaskResponseDto;
   taskWatchable : boolean = false;
   titleModify: boolean = false;
+  faEye = faEye;
 
   constructor(
     public dialogRef: MatDialogRef<EventClickComponent>,
@@ -27,7 +28,7 @@ export class EventClickComponent implements OnInit{
   
     this.eventService.getEventById(this.data.dataKey).subscribe(
       {
-        next: (event : any) => {this.eventValue = event},
+        next: (event : any) => {this.eventValue = event, this.getImage(event.start)},
       
       },
  
@@ -41,6 +42,8 @@ export class EventClickComponent implements OnInit{
 
  
   submit(){
+    console.log(this.eventValue);
+
     this.eventService.saveEvent(this.eventValue).subscribe();
     this.dialogRef.close(this.eventValue.title);
 
@@ -72,5 +75,20 @@ export class EventClickComponent implements OnInit{
   deleteEvent(id : number){
     this.eventService.delete(id).subscribe();
     window.location.reload();
+  }
+
+
+
+  getImage(date : string){
+
+   let year = date.substring(0,4);
+
+   let month = date.substring(5,7);
+
+   let day = date.substring(8,10);
+
+
+    const weekday = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    return "../../../assets/weeksDay/" + weekday[new Date(`${month}/${day}/${year}`).getDay()] + ".jpg";
   }
 }

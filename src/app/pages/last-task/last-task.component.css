@@ -1,6 +1,6 @@
 
   .tno {
-      background-color: #e68989;
+      background-color: #ffffff;
       height: 120px;
       width: 120px;
       border-radius: 50%;
@@ -9,15 +9,19 @@
       -ms-border-radius: 50%;
       position: relative;
       display: inline-block;
-      top: 50px;
+      top: 20%;
       left: 15px;
       border: 2px solid #080808;
+  }
+
+  .tno:hover{
+    background-color: #f79595;
   }
 
   
 
   .tyes {
-      background-color:  #74a074;
+    background-color: #ffffff;
       height: 120px;
       width: 120px;
       border-radius: 50%;
@@ -26,8 +30,28 @@
       -ms-border-radius: 50%;
       position: relative;
       display: inline-block;
-      top: 48px;
+      top: 20%;
       border: 2px solid #101111;
   }
 
+
+  .tyes:hover{
+    background-color: #97f866;
+  }
+
+  .rightBackground{
+    margin-top: 3%;
+    padding: 10px;
+    width: 110px;
+   
+  }
+
+
+
+  .wrongBackground{
+    margin-top: 5%;
+    padding: 20px;
+    width: 100px;
+   
+  }
 

@@ -1,3 +1,18 @@
 .mat-mdc-dialog-actions {
     justify-content: center ;
 }
+
+
+img{
+ height: 200px !important;
+   width: 400px;
+}
+
+fa-icon{
+    color: #6d9bcf ;
+    cursor: pointer;
+}
+
+fa-icon:hover{
+    color: rgb(69, 69, 212);
+}

@@ -1,0 +1,59 @@
+<div>
+    <div class="row clearfix">
+        <div class="col-lg-12">
+            <div class="card chat-app">
+                <div class="chat">
+                    <div class="chat-header clearfix">
+                        <div class="row">
+                            <div class="col-lg-6 text-center">
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-history">
+
+                        
+
+                        <div class="clearfix" *ngFor="let message of messages">
+                            
+                            <div *ngIf="!didISend(message)">
+                                <div class="message-data text-end">
+                                    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle">
+                                    {{message.sender}} - {{message.date | date : 'medium'}}
+                                </div>
+                                <div class="message other-message float-right"> {{message.message}} </div>
+                            </div>
+                            <div *ngIf="didISend(message)">
+                                <div class="message-data text-right">
+                                    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle">
+                                    {{message.sender}}- {{message.date | date : 'medium'}}
+
+                                </div>
+
+                                <div class="message my-message"> {{message.message}} </div>
+                            </div>
+
+                        </div>
+
+                        <emoji-mart class="emoji-mart"  *ngIf="showEmojiPicker"
+                            (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
+
+                    </div>
+                    <div class="chat-message clearfix">
+                        <div class="input-group mb-0">
+                            <button (click)="toggleEmojiPicker()">😀</button>
+                            <input autocomplete="off" class="form-control" placeholder="Enter text here..."
+                                [(ngModel)]="newmessage" required>
+                            <button class="btn btn-primary" (click)="sendMessage()"
+                                [disabled]="!newmessage">Send</button>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

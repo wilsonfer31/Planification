@@ -1,7 +1,7 @@
 
-
+<div *ngIf="tasks">
 <div
- *ngIf="tasks"
+ *ngIf="tasks.length != 0"
   class="tphoto"
   [@cardAnimator]="animationState"
   (@cardAnimator.done)="resetAnimationState($event, tasks[index] )"
@@ -9,9 +9,15 @@
   (swiperight)="startAnimation('swiperight')"
 >
 
+
+
 <div class="date">{{tasks[index].eventName | uppercase }} - {{tasks[index].created }} &nbsp;</div> 
   <div class="tname" >
     <span>{{ tasks[index].task }}</span>
   </div>
    
 </div>
+
+<div *ngIf="tasks.length == 0">
+  <h1 class="text-center">All Tasks are done ! Good Job</h1>
+</div></div>
