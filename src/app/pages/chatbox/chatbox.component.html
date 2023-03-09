@@ -12,22 +12,24 @@
                             </div>
                         </div>
                     </div>
-                    <div class="chat-history">
+                    <div class="chat-history" id="chat" #scrollMe [scrollTop]="scrollMe.scrollHeight">
 
-                        
+
 
                         <div class="clearfix" *ngFor="let message of messages">
-                            
+
                             <div *ngIf="!didISend(message)">
                                 <div class="message-data text-end">
-                                    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle">
+                                    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+                                        width="40" height="40" class="rounded-circle">
                                     {{message.sender}} - {{message.date | date : 'medium'}}
                                 </div>
                                 <div class="message other-message float-right"> {{message.message}} </div>
                             </div>
                             <div *ngIf="didISend(message)">
                                 <div class="message-data text-right">
-                                    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle">
+                                    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+                                        width="40" height="40" class="rounded-circle">
                                     {{message.sender}}- {{message.date | date : 'medium'}}
 
                                 </div>
@@ -37,8 +39,8 @@
 
                         </div>
 
-                        <emoji-mart class="emoji-mart"  *ngIf="showEmojiPicker"
-                            (emojiSelect)="addEmoji($event)" title="Pick your emoji…"></emoji-mart>
+                        <emoji-mart class="emoji-mart" *ngIf="showEmojiPicker" (emojiSelect)="addEmoji($event)"
+                            title="Pick your emoji…"></emoji-mart>
 
                     </div>
                     <div class="chat-message clearfix">
@@ -48,7 +50,7 @@
                                 [(ngModel)]="newmessage" required>
                             <button class="btn btn-primary" (click)="sendMessage()"
                                 [disabled]="!newmessage">Send</button>
-
+                
                         </div>
 
                     </div>
