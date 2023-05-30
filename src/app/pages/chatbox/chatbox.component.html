@@ -28,7 +28,7 @@
                             </div>
                             <div *ngIf="didISend(message)">
                                 <div class="message-data text-right">
-                                    <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+                                    <img [src]="imageSrc"
                                         width="40" height="40" class="rounded-circle">
                                     {{message.sender}}- {{message.date | date : 'medium'}}
 

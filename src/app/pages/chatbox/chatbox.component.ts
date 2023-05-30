@@ -6,6 +6,7 @@ import { environment } from 'src/app/_environement/environment';
 import { AuthService } from 'src/app/_services/authService/auth-service.service';
 import { MessageService } from 'src/app/_services/messageService/message.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { UserService } from 'src/app/_services/userService/user.service';
 
 @Component({
   selector: 'app-chatbox',
@@ -20,6 +21,7 @@ export class ChatboxComponent implements AfterContentChecked{
   newmessage: string;
   private stompClient: Stomp.Client | null = null;
   showEmojiPicker = false;
+  imageSrc: string | ArrayBuffer | null = null;
 
   toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
@@ -27,32 +29,40 @@ export class ChatboxComponent implements AfterContentChecked{
 
   addEmoji(event: any) {
     let text = "";
-    if (this.newmessage != null) {
-      text = `${this.newmessage}${event.emoji.native}`;
-    } else {
-      text = `${event.emoji.native}`;
-    }
+    this.newmessage != null? text = `${this.newmessage}${event.emoji.native}`:text = `${event.emoji.native}`;
     this.newmessage = text;
    
   }
-  constructor(private authService: AuthService, private messageService: MessageService, private cdRef:ChangeDetectorRef) {
+  constructor(private authService: AuthService,
+     private messageService: MessageService, 
+     private cdRef:ChangeDetectorRef,
+     private userService : UserService) {
 
   }
- 
  
 
 
   ngOnInit() {
     this.getMessages();
     this.connect();
+    this.getUserImage();
   }
 
   ngAfterContentChecked(): void {
     this.cdRef.detectChanges();
   }
 
-  
-
+  getUserImage(): void {
+    this.userService.getUserImage().subscribe(response => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        this.imageSrc = reader.result;
+      };
+      reader.readAsDataURL(response);
+    }, error => {
+      this.imageSrc = "https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
+    });
+  }
   setConnected(connected: boolean) {
     this.disabled = !connected;
 
@@ -72,7 +82,6 @@ export class ChatboxComponent implements AfterContentChecked{
   }
 
   connect() {
-
     const socket = new SockJS(environment.base_api_back + '/chat');
     this.stompClient = Stomp.over(socket);
     this.stompClient.debug = f => f;
@@ -116,9 +125,8 @@ export class ChatboxComponent implements AfterContentChecked{
   }
 
   didISend(message: Message) {
-
     if (message.sender == this.authService.currentUserValue.email) {
-
+    
       return true;
     }
     return false;

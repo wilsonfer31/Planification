@@ -1,6 +1,6 @@
-import { Component , OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
 import { EventService } from 'src/app/_services/eventService/event-service';
 import { eventAndTaskResponseDto } from 'src/app/_models/event/eventAndTaskResponseDto';
@@ -13,9 +13,9 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
   templateUrl: './event-click.component.html',
   styleUrls: ['./event-click.component.css']
 })
-export class EventClickComponent implements OnInit{
+export class EventClickComponent implements OnInit {
   eventValue: eventAndTaskResponseDto;
-  taskWatchable : boolean = false;
+  taskWatchable: boolean = false;
   titleModify: boolean = false;
   faEye = faEye;
 
@@ -23,69 +23,66 @@ export class EventClickComponent implements OnInit{
     public dialogRef: MatDialogRef<EventClickComponent>,
     public eventService: EventService,
     @Inject(MAT_DIALOG_DATA) public data: any
-    ) { }
+  ) { }
   ngOnInit(): void {
-  
+
     this.eventService.getEventById(this.data.dataKey).subscribe(
       {
-        next: (event : any) => {this.eventValue = event, this.getImage(event.start)},
-      
+        next: (event: any) => { this.eventValue = event, this.getImage(event.start) },
+
       },
- 
+
     )
-    
+
   }
 
   cancel() {
     this.dialogRef.close(false);
   }
 
- 
-  submit(){
-    console.log(this.eventValue);
 
+  submit() {
     this.eventService.saveEvent(this.eventValue).subscribe();
     this.dialogRef.close(this.eventValue.title);
 
   }
-  taskWatchableFonction(){
+  taskWatchableFonction() {
     this.taskWatchable = !this.taskWatchable;
   }
 
-  addTask(){
+  addTask() {
     this.taskWatchable = true;
-  
-      this.eventValue.tasks.push(new TasksDto);
+    this.eventValue.tasks.push(new TasksDto);
   }
 
-  removeTask(tasks : TasksDto){
-   this.eventValue.tasks = this.eventValue.tasks.filter(arrayItem => arrayItem !== tasks);
-   
+  removeTask(tasks: TasksDto) {
+    this.eventValue.tasks = this.eventValue.tasks.filter(arrayItem => arrayItem !== tasks);
+
   }
 
-  modifyTask(tasks : TasksDto){
+  modifyTask(tasks: TasksDto) {
 
-  tasks.show = !tasks.show;
+    tasks.show = !tasks.show;
   }
 
-  modifyEventName(){
-    this.titleModify = ! this.titleModify;
+  modifyEventName() {
+    this.titleModify = !this.titleModify;
   }
 
-  deleteEvent(id : number){
+  deleteEvent(id: number) {
     this.eventService.delete(id).subscribe();
     window.location.reload();
   }
 
 
 
-  getImage(date : string){
+  getImage(date: string) {
 
-   let year = date.substring(0,4);
+    let year = date.substring(0, 4);
 
-   let month = date.substring(5,7);
+    let month = date.substring(5, 7);
 
-   let day = date.substring(8,10);
+    let day = date.substring(8, 10);
 
 
     const weekday = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];

@@ -8,12 +8,6 @@ import { Message } from 'src/app/_models/message/MessageDto';
   providedIn: 'root'
 })
 export class MessageService {
-  private httpHeaders = {
-    headers: new HttpHeaders({
-      'Access-Control-Allow-Origin': '*',
-    })
-
-  }
 
   url = environment.base_api_back + '/messages';
 

@@ -38,4 +38,8 @@ getAllValidatedTask(): Observable<TasksDto []> {
   return this.http.get<TasksDto []>(`${this.url}/validated`).pipe(catchError(error => {throw error;}));
 }
 
+removeTask(id : number): Observable<TasksDto> {
+  return this.http.get<TasksDto>(`${this.url}/remove/${id}`).pipe(catchError(error => {throw error;}));
+}
+
 }

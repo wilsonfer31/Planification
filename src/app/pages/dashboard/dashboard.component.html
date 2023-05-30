@@ -1,6 +1,4 @@
 <div id="wrapper" [ngClass]="toogled ? 'toggled' : ''">
-
-
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
             <li class="sidebar-brand">
@@ -8,58 +6,31 @@
                     WF Planning
                 </a>
             </li>
-            <li>
-                <a routerLink="/calendar">Calendar</a>
-            </li>
-            <li>
-                <a routerLink="/lastTask">Waiting Tasks</a>
-            </li>
-            <li>
-                <a href="/taskValidated">What have i done?</a>
-            </li>
-            <li>
-                <a href="/chat">Chat</a>
-            </li>
-            <li>
-                <a href="#">Stats</a>
+            <li *ngFor="let route of routes">
+                <a href="{{route.path}}"> {{route.value}}</a>
             </li>
             <li>
                 <a (click)="logOut()">Exit</a>
             </li>
-
-
-
         </ul>
     </div>
     <div>
-
-
-        <nav class="navbar navbar-light" >
+        <nav class="navbar navbar-light">
             <img (click)="toogleMenu()" src="../../../assets/wf-logo.png" class="toogle" *ngIf="toogled" />
             <img (click)="toogleMenu()" src="../../../assets/wf-logo.png" class="sidebar-image" *ngIf="!toogled" />
-
-       
-
-         <a class=" dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
-             <img src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg" width="40" height="40" class="rounded-circle">
-         </a>
-
+            <a class=" dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+                <img [src]="imageSrc"
+                    width="40" height="40" class="rounded-circle">
+            </a>
         </nav>
-
     </div>
-    
-
     <div id="page-content-wrapper">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-
                     <router-outlet></router-outlet>
-
                 </div>
             </div>
         </div>
     </div>
-
-
 </div>

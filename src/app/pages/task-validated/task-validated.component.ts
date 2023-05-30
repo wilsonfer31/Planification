@@ -18,12 +18,21 @@ export class TaskValidatedComponent implements OnInit{
 
 
   ngOnInit() {
+  this.getTasks();
+  }
+
+
+  getTasks(){
     this.taskService.getAllValidatedTask().subscribe({
       next: (tasks : TasksDto[])=> this.tasks = tasks
     });
   }
 
-
+  removeTask(id :number){
+    this.taskService.removeTask(id).subscribe({
+      next : () => this.getTasks()
+    });
+  }
 
 
 

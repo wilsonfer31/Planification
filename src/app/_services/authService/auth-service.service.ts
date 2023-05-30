@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, catchError, map, Observable } from "rxjs";
+import { BehaviorSubject, catchError, map, Observable, tap } from "rxjs";
 import { AuthenticationResponseDTO } from 'src/app/_models/user/AuthenticationResponseDTO';
 import { environment } from 'src/app/_environement/environment';
 import { Router } from '@angular/router';
-
+import  jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +15,9 @@ export class AuthService {
 
   public currentUser: Observable<AuthenticationResponseDTO>;
 
-  url = environment.base_api_back + '/login';
+  loginURL = environment.base_api_back + '/public/login';
 
-  constructor(private httpClient: HttpClient, private router: Router) { 
+  constructor(private httpClient: HttpClient, private router: Router) {
     let lsVal = localStorage.getItem('currentUser');
     this.currentUserSubject = new BehaviorSubject<AuthenticationResponseDTO>(JSON.parse(lsVal!));
     this.currentUser = this.currentUserSubject.asObservable()
@@ -25,15 +25,18 @@ export class AuthService {
 
 
   login(email: string, password: string) {
-    return this.httpClient.post<any>(this.url, {email, password })
-    .pipe(map(result => {
-      localStorage.setItem('currentUser', JSON.stringify(result));
-      this.currentUserSubject.next(result);
-      return result;
-    }),
-      catchError( (error) => {
-        throw error.error;
-      }),)
+    return this.httpClient.post<any>(this.loginURL, { email, password })
+      .pipe(tap(result => {
+
+        let token =  jwt_decode(result.token);
+        console.log(token);
+        localStorage.setItem('currentUser', JSON.stringify(result));
+        this.currentUserSubject.next(result);
+        return result;
+      }),
+        catchError((error) => {
+          throw error;
+        }),)
   }
 
   public get currentUserValue(): AuthenticationResponseDTO {

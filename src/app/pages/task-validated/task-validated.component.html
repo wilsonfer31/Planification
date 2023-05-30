@@ -15,7 +15,7 @@
         <td>{{task.task}}</td>
         <td>{{task.created}}</td>
         <td>{{task.eventName}}</td>
-        <td class="deleteIncon"><fa-icon [icon]="faTrash" ></fa-icon></td>
+        <td class="deleteIncon" (click)="removeTask(task.id)"><fa-icon [icon]="faTrash" ></fa-icon></td>
       </tr>
     </tbody>
   </table>

@@ -9,7 +9,7 @@ import { eventDto } from 'src/app/_models/event/eventDto';
 @Injectable({
   providedIn: 'root'
 })
-export class EventService{
+export class EventService {
 
   private httpHeaders = {
     headers: new HttpHeaders({
@@ -23,20 +23,20 @@ export class EventService{
   constructor(private http: HttpClient) { }
 
 
-  getAll(): Observable<EventInput []> {
-    return this.http.get<EventInput []>(this.url).pipe(catchError(error => {throw error;}));
+  getAll(): Observable<EventInput[]> {
+    return this.http.get<EventInput[]>(this.url).pipe(catchError(error => { throw error; }));
   }
 
 
-  saveEvent(event : EventInput | eventAndTaskResponseDto | eventDto) : Observable<EventInput>{
-      return this.http.post<EventInput>(this.url,event, this.httpHeaders).pipe(catchError(error => {throw error}));
+  saveEvent(event: EventInput | eventAndTaskResponseDto | eventDto): Observable<EventInput> {
+    return this.http.post<EventInput>(this.url, event, this.httpHeaders).pipe(catchError(error => { throw error }));
   }
 
-  getEventById(id : number): Observable<EventInput []> {
-    return this.http.get<EventInput []>(`${this.url}/${id}`).pipe(catchError(error => {throw error;}));
+  getEventById(id: number): Observable<EventInput[]> {
+    return this.http.get<EventInput[]>(`${this.url}/${id}`).pipe(catchError(error => { throw error; }));
   }
-  delete(id : number): Observable<EventInput []> {
-    return this.http.delete<EventInput []>(`${this.url}/${id}`).pipe(catchError(error => {throw error;}));
+  delete(id: number): Observable<EventInput[]> {
+    return this.http.delete<EventInput[]>(`${this.url}/${id}`).pipe(catchError(error => { throw error; }));
   }
 
 }
